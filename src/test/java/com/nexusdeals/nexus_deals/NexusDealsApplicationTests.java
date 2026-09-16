@@ -1,4 +1,4 @@
-package com.nexusdelas.nexus_deals;
+package com.nexusdeals.nexus_deals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

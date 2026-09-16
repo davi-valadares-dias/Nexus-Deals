@@ -1,4 +1,4 @@
-package com.nexusdelas.nexus_deals.model;
+package com.nexusdeals.nexus_deals.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

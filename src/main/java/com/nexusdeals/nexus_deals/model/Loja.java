@@ -1,4 +1,4 @@
-package com.nexusdelas.nexus_deals.model;
+package com.nexusdeals.nexus_deals.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +13,7 @@ public class Loja {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String nome;
 
@@ -39,7 +39,7 @@ public class Loja {
         return linkBase;
     }
     public void setLinkBase(String linkBase){
-        this.linkBase = linkbase;
+        this.linkBase = linkBase;
     }
     public Double getReputacao(){
         return reputacao;

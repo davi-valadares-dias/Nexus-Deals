@@ -1,4 +1,4 @@
-package com.nexusdelas.nexus_deals.model;
+package com.nexusdeals.nexus_deals.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String nome;
 
