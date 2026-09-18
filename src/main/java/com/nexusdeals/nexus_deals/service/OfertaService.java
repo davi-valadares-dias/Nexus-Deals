@@ -12,7 +12,7 @@ public class OfertaService {
     @Autowired
     private OfertaRepository ofertaRepository;
 
-    public List<Oferta> listarTodos() {
+    public List<Oferta> listarTodas() {
         return ofertaRepository.findAll();
     }
     public List<Oferta> buscarPorProduto(Long produtoId){
