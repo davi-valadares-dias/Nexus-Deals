@@ -14,7 +14,7 @@ public class HistoricoPrecoService {
     @Autowired
     private HistoricoPrecoRepository historicoPrecoRepository;
 
-    public List<HistoricoPreco> listarbuscarPorOferta(Long ofertaId) {
+    public List<HistoricoPreco> buscarPorOferta(Long ofertaId) {
         return historicoPrecoRepository.findByOfertaIdOrderByDataColetaDesc(ofertaId);
     }
     public HistoricoPreco salvar(HistoricoPreco historicoPreco){
