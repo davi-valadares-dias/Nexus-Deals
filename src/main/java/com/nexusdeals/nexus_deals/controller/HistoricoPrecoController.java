@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/historico-precos")
@@ -17,6 +18,11 @@ public class HistoricoPrecoController {
     @GetMapping("/oferta/{ofertaId}")
     public List<HistoricoPreco> buscarPorOferta(@PathVariable Long ofertaId) {
         return historicoPrecoService.buscarPorOferta(ofertaId);
+    }
+
+    @GetMapping("/oferta/{ofertaId}/estatisticas")
+    public Map<String, Object> buscarEstatisticas(@PathVariable Long ofertaId){
+        return historicoPrecoService.buscarEstatisticas(ofertaId);
     }
 
     @PostMapping
