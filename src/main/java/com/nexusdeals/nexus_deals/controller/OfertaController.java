@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/ofertas")
@@ -28,6 +29,10 @@ public class OfertaController {
     @GetMapping("/produto/{produtoId}")
     public List<Oferta> buscarPorProduto(@PathVariable Long produtoId) {
         return ofertaService.buscarPorProduto(produtoId);
+    }
+    @GetMapping("/{id}/confiabilidade")
+    public Map<String, Object> buscarComConfiabilidade(@PathVariable Long id) {
+        return ofertaService.buscarComConfiabilidade(id);
     }
 
     @PostMapping
