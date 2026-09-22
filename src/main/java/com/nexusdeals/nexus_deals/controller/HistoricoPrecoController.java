@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/historico-precos")
@@ -23,6 +24,10 @@ public class HistoricoPrecoController {
     @GetMapping("/oferta/{ofertaId}/estatisticas")
     public Map<String, Object> buscarEstatisticas(@PathVariable Long ofertaId){
         return historicoPrecoService.buscarEstatisticas(ofertaId);
+    }
+    @GetMapping("/oferta/{ofertaId}/comparar")
+    public Map<String, Object> compararComHistorico(@PathVariable Long ofertaId, @RequestParam BigDecimal precoAtual) {
+        return historicoPrecoService.compararComHistorico(ofertaId, precoAtual);
     }
 
     @PostMapping
