@@ -5,6 +5,7 @@ import com.nexusdeals.nexus_deals.model.Oferta;
 import com.nexusdeals.nexus_deals.repository.AlertaRepository;
 import com.nexusdeals.nexus_deals.repository.OfertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -54,5 +55,10 @@ public class AlertaService {
                 alertaRepository.save(alerta);
             }
         }
+    }
+    @Scheduled(fixedRate = 60000)
+    public void verificarAlertaAutomaticamente(){
+        System.out.println("Executando verificação automatico de alertas...");
+        verificarAlertas();
     }
 }
