@@ -25,4 +25,14 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+    public Usuario autenticar(String email, String senha) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Email ou senha invalidos"));
+
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
+            throw new IllegalArgumentException("Email ou senha invalidos");
+        }
+
+        return usuario;
+    }
 }
