@@ -23,6 +23,10 @@ public class Alerta {
     @JoinColumn(name = "oferta_id")
     private Oferta oferta;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     private BigDecimal precoAlvo;
 
     private Boolean ativo;
@@ -50,6 +54,14 @@ public class Alerta {
 
     public void setOferta(Oferta oferta) {
         this.oferta = oferta;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public BigDecimal getPrecoAlvo() {

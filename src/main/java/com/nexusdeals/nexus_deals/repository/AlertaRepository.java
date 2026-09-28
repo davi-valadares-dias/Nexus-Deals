@@ -10,4 +10,6 @@ public interface AlertaRepository extends JpaRepository<Alerta, Long> {
     List<Alerta> findByAtivoTrue();
 
     List<Alerta> findByOfertaId(Long ofertaId);
+
+    List<Alerta> findByUsuarioEmail(String email);
 }
