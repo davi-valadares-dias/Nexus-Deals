@@ -2,8 +2,9 @@ package com.nexusdeals.nexus_deals.service;
 
 import com.nexusdeals.nexus_deals.model.Alerta;
 import com.nexusdeals.nexus_deals.model.Oferta;
+import com.nexusdeals.nexus_deals.model.Usuario;
 import com.nexusdeals.nexus_deals.repository.AlertaRepository;
-import com.nexusdeals.nexus_deals.repository.OfertaRepository;
+import com.nexusdeals.nexus_deals.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,29 +19,35 @@ public class AlertaService {
     private AlertaRepository alertaRepository;
 
     @Autowired
-    private OfertaRepository ofertaRepository;
+    private UsuarioRepository usuarioRepository;
 
-    public List<Alerta> listarTodos() {
-        return alertaRepository.findAll();
+    public List<Alerta> listarDoUsuario(String emailUsuario) {
+        return alertaRepository.findByUsuarioEmail(emailUsuario);
     }
 
-    public List<Alerta> buscarPorOferta(Long ofertaId) {
-        return alertaRepository.findByOfertaId(ofertaId);
-    }
+    public Alerta criar(Alerta alerta, String emailUsuario) {
+        Usuario usuario = usuarioRepository.findByEmail(emailUsuario)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario nao encontrado"));
 
-    public Alerta criar(Alerta alerta) {
+        alerta.setId(null);
+        alerta.setUsuario(usuario);
         alerta.setAtivo(true);
         alerta.setDisparado(false);
         alerta.setDataCriacao(LocalDateTime.now());
+
         return alertaRepository.save(alerta);
     }
 
-    public void desativar(Long id) {
-        Alerta alerta = alertaRepository.findById(id).orElse(null);
-        if (alerta != null) {
-            alerta.setAtivo(false);
-            alertaRepository.save(alerta);
+    public void desativar(Long id, String emailUsuario) {
+        Alerta alerta = alertaRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Alerta nao encontrado"));
+
+        if (alerta.getUsuario() == null || !alerta.getUsuario().getEmail().equals(emailUsuario)) {
+            throw new IllegalArgumentException("Alerta nao encontrado");
         }
+
+        alerta.setAtivo(false);
+        alertaRepository.save(alerta);
     }
 
     public void verificarAlertas() {
@@ -56,9 +63,10 @@ public class AlertaService {
             }
         }
     }
+
     @Scheduled(fixedRate = 60000)
-    public void verificarAlertaAutomaticamente(){
-        System.out.println("Executando verificação automatico de alertas...");
+    public void verificarAlertasAutomaticamente() {
+        System.out.println("Executando verificacao automatica de alertas...");
         verificarAlertas();
     }
 }

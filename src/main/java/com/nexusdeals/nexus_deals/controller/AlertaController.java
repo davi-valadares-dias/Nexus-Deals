@@ -3,9 +3,14 @@ package com.nexusdeals.nexus_deals.controller;
 import com.nexusdeals.nexus_deals.model.Alerta;
 import com.nexusdeals.nexus_deals.service.AlertaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/alertas")
@@ -15,23 +20,32 @@ public class AlertaController {
     private AlertaService alertaService;
 
     @GetMapping
-    public List<Alerta> listarTodos() {
-        return alertaService.listarTodos();
-    }
-
-    @GetMapping("/oferta/{ofertaId}")
-    public List<Alerta> buscarPorOferta(@PathVariable Long ofertaId) {
-        return alertaService.buscarPorOferta(ofertaId);
+    public List<Alerta> meusAlertas(Authentication authentication) {
+        return alertaService.listarDoUsuario(authentication.getName());
     }
 
     @PostMapping
-    public Alerta criar(@RequestBody Alerta alerta) {
-        return alertaService.criar(alerta);
+    public ResponseEntity<?> criar(@RequestBody Alerta alerta, Authentication authentication) {
+        try {
+            Alerta salvo = alertaService.criar(alerta, authentication.getName());
+            return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
+        } catch (IllegalArgumentException e) {
+            Map<String, String> erro = new HashMap<>();
+            erro.put("erro", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erro);
+        }
     }
 
     @PutMapping("/{id}/desativar")
-    public void desativar(@PathVariable Long id) {
-        alertaService.desativar(id);
+    public ResponseEntity<?> desativar(@PathVariable Long id, Authentication authentication) {
+        try {
+            alertaService.desativar(id, authentication.getName());
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            Map<String, String> erro = new HashMap<>();
+            erro.put("erro", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+        }
     }
 
     @PostMapping("/verificar")
